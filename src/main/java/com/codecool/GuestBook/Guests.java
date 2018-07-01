@@ -1,6 +1,8 @@
 package com.codecool.GuestBook;
 
 import com.codecool.GuestBook.helpers.MimeTypeResolver;
+import com.codecool.GuestBook.model.DatabaseDataReader;
+import com.codecool.GuestBook.model.XMLParser;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -16,6 +18,12 @@ import java.net.URL;
 import java.util.Scanner;
 
 public class Guests implements HttpHandler{
+
+    public Guests() {
+        DatabaseDataReader dataReader = new DatabaseDataReader();
+        XMLParser xmlParser = new XMLParser();
+        xmlParser.writeGuestsToXML(dataReader.getGuests().getIterator());
+    }
 
     public void handle(HttpExchange httpExchange) throws IOException {
 
@@ -50,12 +58,11 @@ public class Guests implements HttpHandler{
     private void sendFile(HttpExchange httpExchange, URL fileURL) throws IOException {
         File file = new File(fileURL.getFile());
         System.out.println("fileURL: " + fileURL + " file: " + file);
-        httpExchange.getResponseHeaders().set("Content-Type", "text/html");
+        httpExchange.getResponseHeaders().set("Content-Type", "application/xml");
         httpExchange.sendResponseHeaders(200, file.length());
         OutputStream os = httpExchange.getResponseBody();
         FileInputStream fs = new FileInputStream(file);
-        byte[] buffer = new byte[0x10000];
-        boolean var9 = false;
+        final byte[] buffer = new byte[0x10000];
 
         int count;
         while((count = fs.read(buffer)) >= 0) {
