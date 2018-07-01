@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+    body {
+         background: #4d4d33;
+         }
+    form {
+        width: 100%;
+        height: 100%;
+        background: #c2c2a3;
+        border-radius: 15px;
+        }
+
+    .header h1 {
+        text-align: center;
+        }
+
+    #guests-content {
+        margin-left: 10%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        flex-direction: column;
+        width: 25%;
+        }
+
+    p1 {
+        margin-bottom: 10px;
+        }
+
+
+    </style>
+    <script>
+        function loadGuestMessages() {
+            var content = document.getElementById("guests-content");
+            var p1 = document.createElement("p1");
+            var text = document.createTextNode("Sie zjebalo");
+            p1.appendChild(text);
+            content.appendChild(p1);
+            }
+    </script>
+</head>
+<body>
+    <header>
+        <form class="header">
+            <h1>Guestbook</h1>
+        </form>
+    </header>
+    <form id="guests-content">
+        <p1>Japierdole kuirwa</p1>
+        <script>loadGuestMessages()</script>
+    </form>
+</body>
+</html>
