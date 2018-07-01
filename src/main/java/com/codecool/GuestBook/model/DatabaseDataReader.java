@@ -6,15 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Iterator;
 
-public class DataReader {
+public class DatabaseDataReader {
+
     private Connection connection;
     private GuestRepository guests;
 
-    public DataReader() {
+    public DatabaseDataReader() {
         connection = new DatabaseConnection().connect("zmarzluszek1997");
         guests = new GuestRepository();
         loadGuestsFromDatabase();
-        showGuests();
     }
 
 
