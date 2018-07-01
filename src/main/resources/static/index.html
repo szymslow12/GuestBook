@@ -94,11 +94,10 @@
             var arrayOfSmth = xmlDoc.getElementsByTagName("guest");
             console.log(arrayOfSmth.length);
             for (var i = 0; i < arrayOfSmth.length; i++) {
-                console.log(arrayOfSmth[i].nodeName);
                 var childNodes = arrayOfSmth[i].childNodes;
                 for (var j = 0; j < childNodes.length; j++) {
                     console.log(childNodes[j].nodeName);
-                    var japierdole = childNodes[0].nodeValue;
+                    var japierdole = childNodes[j].firstChild.nodeValue;
                     console.log(japierdole + " japierole");
                 }
             }
