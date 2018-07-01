@@ -6,7 +6,8 @@
     body {
          background: #4d4d33;
          }
-    form {
+
+    div {
         width: 100%;
         height: 100%;
         background: #c2c2a3;
@@ -18,16 +19,29 @@
         }
 
     #guests-content {
-        margin-left: 10%;
+        margin-left: 25%;
         display: flex;
         justify-content: flex-start;
         align-items: center;
         flex-direction: column;
-        width: 25%;
+        width: 50%;
+        padding: 10px;
+        }
+
+    #guests-content h1 {
+    text-align: center;
+    font-size: 20px;
+    }
+
+    .guest {
+        background: none;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        padding: 10px;
+        width: 97%;
         }
 
     p1 {
-        margin-bottom: 10px;
+        margin-left: 20px;
         }
 
 
@@ -35,22 +49,71 @@
     <script>
         function loadGuestMessages() {
             var content = document.getElementById("guests-content");
+            var guest = document.createElement("div");
+            guest.setAttribute("class", "guest");
+            var h1 = document.createElement("h1");
+            h1.appendChild(document.createTextNode("Name:     Date:    "));
+            guest.appendChild(h1);
             var p1 = document.createElement("p1");
-            var text = document.createTextNode("Sie zjebalo");
+            var text = document.createTextNode("Example message");
             p1.appendChild(text);
-            content.appendChild(p1);
+            guest.appendChild(p1);
+            content.appendChild(guest);
+            connectWithXMLGuestbook();
+            }
+
+
+        function connectWithXMLGuestbook() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                 /*use this to send xml*/
+                    parseXMLToHTMLGuest(this);
+                    }
+                };
+            xhttp.open("GET", "http://localhost:8000/static/guestbook.xml", true);
+            xhttp.send();
+            }
+
+
+        function parseXMLToHTMLGuest(xml) {
+            var xmlDoc = xml.responseXML;
+            var content = document.getElementById("guests-content");
+            var guest = document.createElement("div");
+            guest.setAttribute("class", "guest");
+            guest.appendChild(getHeaderFromXML(xmlDoc));
+            }
+
+
+        function getHeaderFromXML(xmlDoc) {
+            var h1 = document.createElement("h1");
+            /*var name = String.format("Name: {0} ", "jakies imie");
+            var date = String.format("Date: {0}", "jakas data");
+            var text = document.createTextNode(name + date);
+            h1.appendChild(text);*/
+            var arrayOfSmth = xmlDoc.getElementsByTagName("guest");
+            console.log(arrayOfSmth.length);
+            for (var i = 0; i < arrayOfSmth.length; i++) {
+                console.log(arrayOfSmth[i].nodeName);
+                var childNodes = arrayOfSmth[i].childNodes;
+                for (var j = 0; j < childNodes.length; j++) {
+                    console.log(childNodes[j].nodeName);
+                    var japierdole = childNodes[0].nodeValue;
+                    console.log(japierdole + " japierole");
+                }
+            }
+
             }
     </script>
 </head>
 <body>
-    <header>
-        <form class="header">
-            <h1>Guestbook</h1>
-        </form>
-    </header>
-    <form id="guests-content">
-        <p1>Japierdole kuirwa</p1>
-        <script>loadGuestMessages()</script>
-    </form>
+<header>
+    <div class="header">
+        <h1>Guestbook</h1>
+    </div>
+</header>
+<div id="guests-content">
+    <script>loadGuestMessages()</script>
+</div>
 </body>
 </html>
