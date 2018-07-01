@@ -39,10 +39,16 @@ public class DataReader {
         return new Guest(guestID, name, message, date);
     }
 
+
     private void showGuests() {
         Iterator<Guest> guestIterator = guests.getIterator();
         while(guestIterator.hasNext()) {
             System.out.println(guestIterator.next());
         }
+    }
+
+
+    public GuestRepository getGuests() {
+        return guests;
     }
 }
