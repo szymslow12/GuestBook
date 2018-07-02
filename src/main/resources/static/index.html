@@ -25,7 +25,7 @@
         align-items: center;
         flex-direction: column;
         width: 50%;
-        padding: 10px;
+        padding: 30px;
         }
 
     #guests-content h1 {
@@ -79,29 +79,28 @@
         function parseXMLToHTMLGuest(xml) {
             var xmlDoc = xml.responseXML;
             var content = document.getElementById("guests-content");
+            var guestArray = xmlDoc.getElementsByTagName("guest");
+            for (var i = 0; i < guestArray.length; i++) {
+                content.appendChild(getGuest(guestArray[i]));
+            }
+
+            }
+
+
+        function getGuest(guestTag) {
             var guest = document.createElement("div");
             guest.setAttribute("class", "guest");
-            guest.appendChild(getHeaderFromXML(xmlDoc));
-            }
-
-
-        function getHeaderFromXML(xmlDoc) {
+            var guestContent = guestTag.childNodes;
             var h1 = document.createElement("h1");
-            /*var name = String.format("Name: {0} ", "jakies imie");
-            var date = String.format("Date: {0}", "jakas data");
-            var text = document.createTextNode(name + date);
-            h1.appendChild(text);*/
-            var arrayOfSmth = xmlDoc.getElementsByTagName("guest");
-            console.log(arrayOfSmth.length);
-            for (var i = 0; i < arrayOfSmth.length; i++) {
-                var childNodes = arrayOfSmth[i].childNodes;
-                for (var j = 0; j < childNodes.length; j++) {
-                    console.log(childNodes[j].nodeName);
-                    var japierdole = childNodes[j].firstChild.nodeValue;
-                    console.log(japierdole + " japierole");
-                }
-            }
-
+            var p1 = document.createElement("p1");
+            var name = "Name: " + guestContent[0].firstChild.nodeValue;
+            var date = " Date: " + guestContent[2].firstChild.nodeValue;
+            var message = guestContent[1].firstChild.nodeValue;
+            h1.appendChild(document.createTextNode(name + date));
+            p1.appendChild(document.createTextNode(message));
+            guest.appendChild(h1);
+            guest.appendChild(p1);
+            return guest;
             }
     </script>
 </head>
@@ -112,7 +111,7 @@
     </div>
 </header>
 <div id="guests-content">
-    <script>loadGuestMessages()</script>
+    <script>connectWithXMLGuestbook()</script>
 </div>
 </body>
 </html>
