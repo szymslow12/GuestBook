@@ -20,20 +20,18 @@
 
     #guests-content {
         margin-left: 25%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        flex-direction: column;
         width: 50%;
-        padding: 30px;
+        padding: 10px;
+        padding-bottom: 0.1px;
         }
 
     #guests-content h1 {
-    text-align: center;
-    font-size: 20px;
-    }
+        text-align: center;
+        font-size: 20px;
+        }
 
     .guest {
+        margin-bottom: 10px;
         background: none;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         padding: 10px;
@@ -47,22 +45,6 @@
 
     </style>
     <script>
-        function loadGuestMessages() {
-            var content = document.getElementById("guests-content");
-            var guest = document.createElement("div");
-            guest.setAttribute("class", "guest");
-            var h1 = document.createElement("h1");
-            h1.appendChild(document.createTextNode("Name:     Date:    "));
-            guest.appendChild(h1);
-            var p1 = document.createElement("p1");
-            var text = document.createTextNode("Example message");
-            p1.appendChild(text);
-            guest.appendChild(p1);
-            content.appendChild(guest);
-            connectWithXMLGuestbook();
-            }
-
-
         function connectWithXMLGuestbook() {
             var xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
@@ -83,7 +65,6 @@
             for (var i = 0; i < guestArray.length; i++) {
                 content.appendChild(getGuest(guestArray[i]));
             }
-
             }
 
 
