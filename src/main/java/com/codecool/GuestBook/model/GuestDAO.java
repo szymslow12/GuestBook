@@ -2,7 +2,6 @@ package com.codecool.GuestBook.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Map;
 
 import java.sql.Connection;
