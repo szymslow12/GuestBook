@@ -3,176 +3,37 @@
 <head>
     <meta charset="utf-8" />
     <style>
-    body {
-         background: #4d4d33;
-         }
-
-    div {
-        width: 100%;
-        height: 100%;
-        background: #c2c2a3;
-        border-radius: 15px;
-        }
-
-    .header h1 {
-        text-align: center;
-        }
-
-    #guests-container {
-        width: auto;
-        height: auto;
-        display: flex;
-        justify-content: center;
-    }
-
-    #guestsbook-messages {
-        width: auto;
-        padding: 10px;
-        }
-
-    #guestsbook-messages h1 {
-        text-align: center;
-        font-size: 20px;
-        }
-
-    .guest {
-        margin-bottom: 10px;
-        background: none;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        padding: 10px;
-        width: 97%;
-        }
-
-    p1 {
-        margin-left: 20px;
-
-        }
-
-    #new-message-box {
-        width: auto;
-        background: none;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        padding: 10px;
-        position: relative;
-    }
-
-
-    #message-details {
-        width: auto;
-        padding: 10px;
-    }
-
-    label {
-        color: white;
-        font-size: 20px;
-        text-align: center;
-        background: none;
-        
-    }
-
-    #message-details p {
-        width: auto;
-        text-shadow: 3px 2px 4px brown;
-    }
-
-    #message {
-        width: 100%;
-        min-width: 500px;
-        min-height: 150px;
-    }
-
+    
     </style>
     <script>
-        function connectWithXMLGuestbook() {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                if (this.readyState == 4 && this.status == 200) {
-                 /*use this to send xml*/
-                    parseXMLToHTMLGuest(this);
-                    }
-                };
-            xhttp.open("GET", "http://localhost:8000/static/guestbook.xml", true);
-            xhttp.send();
-            }
-
-
-        function parseXMLToHTMLGuest(xml) {
-            var xmlDoc = xml.responseXML;
-            var content = document.getElementById("guestsbook-messages");
-            var guestArray = xmlDoc.getElementsByTagName("guest");
-            for (var i = 0; i < guestArray.length; i++) {
-                content.appendChild(getGuest(guestArray[i]));
-            }
-            }
-
-
-        function getGuest(guestTag) {
-            var guest = document.createElement("div");
-            guest.setAttribute("class", "guest");
-            var guestContent = guestTag.childNodes;
-            var h1 = document.createElement("h1");
-            var p1 = document.createElement("p1");
-            var name = "Name: " + guestContent[0].firstChild.nodeValue;
-            var date = " Date: " + guestContent[2].firstChild.nodeValue;
-            var message = guestContent[1].firstChild.nodeValue;
-            h1.appendChild(document.createTextNode(name + date));
-            p1.appendChild(document.createTextNode(message));
-            guest.appendChild(h1);
-            guest.appendChild(p1);
-            return guest;
-            }
-
-            function stickTo(id) {
-                let messageDetails = document.getElementById("message-details");
-                for (let node of messageDetails.childNodes) {
-                    for (let input of node.childNodes) {
-                        if (input === document.getElementById(id)){
-                            let offsets = getOffset(node);
-                            console.log(input.offsetLeft + " - " + input.offsetTop );
-                            console.log(offsets)
-                            input.offsetLeft = offsets[0] ? offsets[0]: input.offsetLeft;
-                            input.offsetTop = offsets[1] ? offsets[1]: input.offsetTop;
-                            console.log(input.offsetLeft  + " - " + input.offsetTop );
-                        }
-                    }
-                }
-            }
-
-            function getOffset(node) {
-                for (let p of node.childNodes) {
-                    console.log(p.nodeName);
-                    if (p.nodeName == "P") {
-                        return [p.offsetLeft, p.offsetTop];
-                    }
-                }
-            }
-
-            
+        
     </script>
 </head>
-<body>
+<body  onscroll="stickTo('new-message-box')">
 <header>
     <div class="header">
         <h1>Guestbook</h1>
     </div>
 </header>
     <div id="guests-container">
+        
         <div id="guestsbook-messages">
             <script>connectWithXMLGuestbook()</script>
         </div>
-        <div id="new-message-box" onmouseover="let box = document.getElementById(this.id); box.offsetLeft = '1000px'; box.offsetTop = '800px'; console.log(this);  ">
-            <form id="message-details">
+        
+        <div id="new-message-box">
+           
+            <form id="message-details" method="POST" action="/guestBook" name="new-message" onsubmit="updateGuests()">
                 <label>
-                    <p>Name: <input id="name" placeholder="Enter your Name"></p>
-                    
-                    
+                    <p>Name: <input id="name"  name="name" placeholder="Enter your Name"></p>               
                 </label>
                 <label>
                     <p>Message: </p>
-                    <textarea id="message" placeholder="Enter your message"></textarea>
+                    <textarea id="message" name="message" placeholder="Enter your message" type="submit"></textarea>
                 </label>
-                <button>SEND</button>
+                <button form="message-details" type="submit">SEND</button>
             </form>
+    
     </div>
     </div>
 </body>
