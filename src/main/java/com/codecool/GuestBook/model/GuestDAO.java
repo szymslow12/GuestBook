@@ -12,7 +12,7 @@ public class DatabaseDataReader {
     private GuestRepository guests;
 
     public DatabaseDataReader() {
-        connection = new DatabaseConnection().connect("zmarzluszek1997");
+        connection = new DatabaseConnection().connect(" ");
         guests = new GuestRepository();
         loadGuestsFromDatabase();
     }
