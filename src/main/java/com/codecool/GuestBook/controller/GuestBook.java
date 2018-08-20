@@ -12,35 +12,35 @@ import java.util.*;
 public class GuestBook implements HttpHandler {
     String response;
     HttpExchange httpExchange;
+
     @Override
     public void handle(HttpExchange httpExchange) {
-        response = "";
+
         this.httpExchange = httpExchange;
         String method = httpExchange.getRequestMethod();
-        System.out.println(method);
-        if (method.equalsIgnoreCase("GET")) {
-            try {
-                buildIndexHtml();
-                sendResponse();
-            } catch (Exception err) {
-                err.printStackTrace();
-            }
-        } else {
-            try {
-                Map<String, Object> parameters = new HashMap<String, Object>();
-                InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
-                BufferedReader br = new BufferedReader(isr);
-                String query = br.readLine();
-                parseQuery(query, parameters);
-                GuestDAO guestDAO = new GuestDAO();
-                guestDAO.sendNewGuestToDatabase(parameters);
 
+        try {
+            if (method.equalsIgnoreCase("GET")) {
                 buildIndexHtml();
                 sendResponse();
-            } catch (Exception err) {
-                err.printStackTrace();
+            } else {
+                receiveGuestFromSite();
+                buildIndexHtml();
+                sendResponse();
             }
+        } catch (Exception err) {
+            err.printStackTrace();
         }
+    }
+
+    private void receiveGuestFromSite() throws IOException {
+        Map<String, Object> parameters = new HashMap<>();
+        InputStreamReader isr = new InputStreamReader(httpExchange.getRequestBody(), "utf-8");
+        BufferedReader br = new BufferedReader(isr);
+        String query = br.readLine();
+        parseQuery(query, parameters);
+        GuestDAO guestDAO = new GuestDAO();
+        guestDAO.sendNewGuestToDatabase(parameters);
     }
 
     private void sendResponse() throws IOException
