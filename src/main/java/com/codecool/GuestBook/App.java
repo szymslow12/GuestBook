@@ -1,6 +1,6 @@
 package com.codecool.GuestBook;
 
-import com.codecool.GuestBook.controller.GuestBook;
+import com.codecool.GuestBook.controller.GuestBookController;
 import com.sun.net.httpserver.HttpServer;
 import java.net.InetSocketAddress;
 
@@ -12,7 +12,7 @@ public class App {
         server.createContext("/guests", new Guests());
 
         server.createContext("/static", new Static());
-        server.createContext("/guestBook", new GuestBook());
+        server.createContext("/guestBook", new GuestBookController());
         server.setExecutor(null);
 
         server.start();

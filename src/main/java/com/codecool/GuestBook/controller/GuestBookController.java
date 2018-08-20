@@ -9,7 +9,7 @@ import java.io.*;
 import java.net.URLDecoder;
 import java.util.*;
 
-public class GuestBook implements HttpHandler {
+public class GuestBookController implements HttpHandler {
     String response;
     HttpExchange httpExchange;
 
@@ -59,6 +59,7 @@ public class GuestBook implements HttpHandler {
             stringBuilder.append(scanner.nextLine()).append("\n");
         }
         response = stringBuilder.toString();
+        scanner.close();
     }
 
     public static void parseQuery(String query, Map<String,
