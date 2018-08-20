@@ -5,6 +5,3 @@ CREATE TABLE IF NOT EXISTS guests (
     message TEXT,
     visit_date TEXT
 );
-
-INSERT INTO guests
-VALUES (DEFAULT, 'Szymon', 'Message', '01-12-2018');
