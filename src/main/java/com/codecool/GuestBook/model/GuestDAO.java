@@ -30,7 +30,6 @@ public class GuestDAO {
             while (resultSet.next()) {
                 guests.addGuest(getGuestFromDatabse(resultSet));
             }
-            showGuests();
         } catch (SQLException err) {
             err.printStackTrace();
         }
